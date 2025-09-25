@@ -26,11 +26,12 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8") // db데이터를 가져오는 주소
+	@ResponseBody
 	public String login(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = userService.userLogin(map);
-
-		return new Gson().toJson(resultMap);
+		
+		return new Gson().toJson(resultMap); 
 	}
 
 }

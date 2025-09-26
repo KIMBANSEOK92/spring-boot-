@@ -23,9 +23,7 @@
 		SELECT *
 		FROM STUDENT
 		WHERE STU_NAME = #{stuName}
-		<if>
-			SELECT * 
-		</if>
+		
 	</select>
 </mapper>
 

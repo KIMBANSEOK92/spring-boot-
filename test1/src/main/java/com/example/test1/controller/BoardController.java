@@ -24,6 +24,11 @@ public class BoardController {
 
 		return "/board-list";
 	}
+	@RequestMapping("/board-add.do") // @는 spring에서는 아주 중요한 역할을 한다. 자바에서는 오버라이딩을 한다. 주소를 만들어준다.
+	public String boardadd(Model model) throws Exception {
+
+		return "/board-add";
+	}
 
 	@RequestMapping(value = "/board-info.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -35,11 +40,27 @@ public class BoardController {
 		return new Gson().toJson(resultMap);
 	}
 
-	@RequestMapping(value = "/board-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8") 
+	@RequestMapping(value = "/board-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String boardList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = boardService.getBoardList(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/board-delete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String removeBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.removeBoard(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/board-add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.addBoard(map);
 
 		return new Gson().toJson(resultMap);
 	}

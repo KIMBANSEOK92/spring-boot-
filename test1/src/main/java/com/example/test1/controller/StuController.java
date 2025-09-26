@@ -43,4 +43,14 @@ public class StuController {
 
 		return new Gson().toJson(resultMap);
 	}
+	
+	@RequestMapping(value = "/stu-delete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8") // db데이터를 가져오는 주소
+	@ResponseBody
+	public String deleteList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		resultMap = stuService.deleteStuList(map);
+
+		return new Gson().toJson(resultMap);
+	}
 }

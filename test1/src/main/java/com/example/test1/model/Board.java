@@ -4,7 +4,9 @@ public class Board {
 	private String boardNo;
 	private String title;
 	private String userId;
+	private String contents;
 	private String cnt;
+	private String cdate;
 	public String getBoardNo() {
 		return boardNo;
 	}
@@ -28,6 +30,18 @@ public class Board {
 	}
 	public void setCnt(String cnt) {
 		this.cnt = cnt;
+	}
+	public String getCdate() {
+		return cdate;
+	}
+	public void setCdate(String cdate) {
+		this.cdate = cdate;
+	}
+	public String getContents() {
+		return contents;
+	}
+	public void setContents(String contents) {
+		this.contents = contents;
 	}
 	
 

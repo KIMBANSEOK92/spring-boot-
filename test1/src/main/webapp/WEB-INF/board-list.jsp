@@ -34,6 +34,21 @@
         <div id="app">
             <!-- html 코드는 id가 app인 태그 안에서 작업 -->
             <div>
+                <select v-model="kind" @change="fnList">
+                    <option value="">::: 전체 :::</option>
+                    <option value="1">::: 공지사항 :::</option>
+                    <option value="2">::: 자유게시판 :::</option>
+                    <option value="3">::: 문의게시판 :::</option>
+
+                </select>
+
+                <select v-model="kind1" @change="fnList">
+                    <option value="num">:: 번호순 ::</option>
+                    <option value="title">:: 제목순 ::</option>
+                    <option value="cnt">:: 조회수 ::</option>
+                </select>
+            </div>
+            <div>
                 <input placeholder="검색어">
                 <button @click="fnInfo()">검색</button>
             </div>
@@ -44,14 +59,21 @@
                         <th>제목</th>
                         <th>작성자</th>
                         <th>조회수</th>
+                        <th>날짜</th>
+                        <th>삭제</th>
                     </tr>
                     <tr v-for="item in list">
                         <td>{{item.boardNo}}</td>
                         <td>{{item.title}}</td>
                         <td>{{item.userId}}</td>
                         <td>{{item.cnt}}</td>
+                        <td>{{item.cdate}}</td>
+                        <td><button @click="fnRemove(item.boardNo)">삭제</button></td>
                     </tr>
                 </table>
+                <div>
+                    <a href="board-add.do"><button>글쓰기</button></a>
+                </div>
             </div>
         </div>
     </body>
@@ -62,16 +84,21 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    // 변수 - (key : value)
-               
-                    list: []
+                    // 변수 - (key : value)  
+                    list: [],
+                    kind: "",
+                    kind1: "num"
                 };
             },
             methods: {
                 // 함수(메소드) - (key : function())
                 fnList: function () {
                     let self = this;
-                    let param = {};
+                    let param = {
+                        kind: self.kind,
+                        kind1: self.kind1
+
+                    };
                     $.ajax({
                         url: "board-list.dox",
                         dataType: "json",
@@ -88,7 +115,7 @@
                 fnInfo: function () {
                     let self = this;
                     let param = {
- 
+
                     };
                     $.ajax({
                         url: "board-info.dox",
@@ -99,7 +126,25 @@
                             console.log(data);
                         }
                     });
+                },
+                fnRemove: function (boardNo) {
+                    let self = this;
+                    let param = {
+                        boardNo: boardNo // 많이들 실수하는게 self값은 변수를 보내고자 할때 쓰는거다 지금은 파라미터로 보내주기에 쓰지 않는다.
+                    };
+                    $.ajax({
+                        url: "board-delete.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: param,
+                        success: function (data) {
+                            alert("삭제되었습니다");
+                            self.fnList();
+
+                        }
+                    });
                 }
+
 
             }, // methods
             mounted() {

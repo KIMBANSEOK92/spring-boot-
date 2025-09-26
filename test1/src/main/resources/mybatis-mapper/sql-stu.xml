@@ -18,6 +18,15 @@
 		DELETE FROM STUDENT
 		WHERE STU_NO = #{stuNo}
 	</delete>
+	
+	<select id="selectStudent" parameterType="hashmap" resultType="com.example.test1.model.Student">
+		SELECT *
+		FROM STUDENT
+		WHERE STU_NAME = #{stuName}
+		<if>
+			SELECT * 
+		</if>
+	</select>
 </mapper>
 
 

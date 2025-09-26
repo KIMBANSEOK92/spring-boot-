@@ -20,4 +20,10 @@ public interface BoardMapper {
 	
 	// 게시글 목록
 	int insertBoard(HashMap<String, Object> map);
+	
+	// 게시글 상세보기
+	Board selectBoard(HashMap<String, Object> map);
+	
+	
+	
 }

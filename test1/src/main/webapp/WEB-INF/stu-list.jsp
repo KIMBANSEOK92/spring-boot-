@@ -49,7 +49,7 @@
                     </tr>
                     <tr v-for="item in list">
                         <td>{{item.stuNo}}</td>
-                        <td>{{item.stuName}}</td>
+                        <td><a href="javascript:;" @click="fnView(item.stuName)">{{item.stuName}}</a></td>
                         <td>{{item.stuDept}}</td>
                         <td>{{item.stuGrade}}</td>
                         <td>{{item.stuGender}}</td>
@@ -68,7 +68,8 @@
                 return {
                     // 변수 - (key : value)
                     keyword: "",
-                    list: []
+                    list: [],
+
                 };
             },
             methods: {
@@ -92,7 +93,8 @@
                 fnInfo: function () {
                     let self = this;
                     let param = {
-                        keyword: self.keyword
+                        keyword: self.keyword,
+
 
                     };
                     $.ajax({
@@ -121,13 +123,18 @@
 
                         }
                     });
+                },
+                fnView: function (stuName) {
+                    pageChange("stu-view.do", { stuName: stuName });
                 }
+
 
             }, // methods
             mounted() {
                 // 처음 시작할 때 실행되는 부분
                 let self = this;
                 self.fnList();
+
             }
         });
 

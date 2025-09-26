@@ -2,6 +2,8 @@ package com.example.test1.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,13 @@ public class StuController {
 	public String login(Model model) throws Exception {
 
 		return "/stu-list";
+	}
+	@RequestMapping("/stu-view.do") // @는 spring에서는 아주 중요한 역할을 한다. 자바에서는 오버라이딩을 한다. 주소를 만들어준다.
+	public String view(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		System.out.println(map);
+		request.setAttribute("stuName", map.get("stuName"));
+		return "/board-view";
 	}
 	
 	@RequestMapping(value = "/stu-info.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8") // db데이터를 가져오는 주소
@@ -50,6 +59,15 @@ public class StuController {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		
 		resultMap = stuService.deleteStuList(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/stu-view.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String studentView(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = stuService.getStudent(map);
 
 		return new Gson().toJson(resultMap);
 	}

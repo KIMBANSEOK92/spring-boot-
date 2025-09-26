@@ -2,6 +2,8 @@ package com.example.test1.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,10 +26,19 @@ public class BoardController {
 
 		return "/board-list";
 	}
+
 	@RequestMapping("/board-add.do") // @는 spring에서는 아주 중요한 역할을 한다. 자바에서는 오버라이딩을 한다. 주소를 만들어준다.
 	public String boardadd(Model model) throws Exception {
 
 		return "/board-add";
+	}
+
+	@RequestMapping("/board-view.do") // @는 spring에서는 아주 중요한 역할을 한다. 자바에서는 오버라이딩을 한다. 주소를 만들어준다.
+	public String view(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
+			throws Exception {
+		System.out.println(map);
+		request.setAttribute("boardNo", map.get("boardNo"));
+		return "/board-view";
 	}
 
 	@RequestMapping(value = "/board-info.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -48,6 +59,7 @@ public class BoardController {
 
 		return new Gson().toJson(resultMap);
 	}
+
 	@RequestMapping(value = "/board-delete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String removeBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -56,11 +68,21 @@ public class BoardController {
 
 		return new Gson().toJson(resultMap);
 	}
+
 	@RequestMapping(value = "/board-add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String add(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = boardService.addBoard(map);
+
+		return new Gson().toJson(resultMap);
+	}
+
+	@RequestMapping(value = "/board-view.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String boardView(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = boardService.getBoard(map);
 
 		return new Gson().toJson(resultMap);
 	}

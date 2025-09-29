@@ -34,20 +34,15 @@
         <div id="app">
             <!-- html 코드는 id가 app인 태그 안에서 작업 -->
             <div>
-                <table>
-                    <tr>
-                        <th>제목</th>
-                        <td>{{info.title}}</td>
-                    </tr>
-                    <tr>
-                        <th>작성자</th>
-                        <td>{{info.userId}}</td>
-                    </tr>
-                    <tr>
-                        <th>내용</th>
-                        <td>{{info.contents}}</td>
-                    </tr>
-                </table>
+                <label>아이디 : <input v-model="id"></label>
+            </div>
+            <div>
+                <label>비밀번호 : <input type="password" v-model="pwd"></label>
+            </div>
+
+            <div>
+                <button @click="fnLogin">로그인</button>
+                <button>회원가입</button>
             </div>
         </div>
     </body>
@@ -59,25 +54,25 @@
             data() {
                 return {
                     // 변수 - (key : value)
-                    boardNo: "${boardNo}",
-
+                    id : "" ,
+                    pwd : ""
                 };
             },
             methods: {
                 // 함수(메소드) - (key : function())
-                fnInfo: function () {
+                fnLogin: function () {
                     let self = this;
                     let param = {
-                        boardNo: self.boardNo,
-
+                        id : self.id,
+                        pwd : self.pwd
                     };
                     $.ajax({
-                        url: "board-view.dox",
+                        url: "/member/login.dox",
                         dataType: "json",
                         type: "POST",
                         data: param,
                         success: function (data) {
-                            console.log(data);
+                            alert(data.msg);
                         }
                     });
                 }
@@ -85,7 +80,6 @@
             mounted() {
                 // 처음 시작할 때 실행되는 부분
                 let self = this;
-                self.fnInfo();
             }
         });
 

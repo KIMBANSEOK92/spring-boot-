@@ -35,17 +35,17 @@
             <!-- html 코드는 id가 app인 태그 안에서 작업 -->
             <div >
                 <table>
-                    <tr v-model="item in list">
+                    <tr>
                         <th>이름</th>
-                        <td>{{info.stuName>}}</td>
+                        <td>{{info.stuName}}</td>
                     </tr>
-                    <tr v-model="item in list">
+                    <tr >
                         <th>학과</th>
-                        <td>{{info.stuDept>}}</td>
+                        <td>{{info.stuDept}}</td>
                     </tr>
-                    <tr v-model="item in list">
+                    <tr>
                         <th>평균점수</th>
-                        <td>{{info.contents>}}</td>
+                        <td>{{info.contents}}</td>
                     </tr>
                 </table>
             </div>

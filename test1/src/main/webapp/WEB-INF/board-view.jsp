@@ -60,6 +60,8 @@
                 return {
                     // 변수 - (key : value)
                     boardNo: "${boardNo}",
+                    session : "${session}",
+                    status : "${status}"
 
                 };
             },

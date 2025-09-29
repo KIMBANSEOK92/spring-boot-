@@ -9,5 +9,6 @@ public class Member {
 	private String name;
 	private String birth;
 	private String nickName;
+	private String status;
 	
 }

@@ -10,4 +10,7 @@ import com.example.test1.model.Member;
 public interface MemberMapper {
 	// 로그인
 	Member memberLogin(HashMap<String, Object> map);
+	
+	// 중복확인
+	Member memberCheck(HashMap<String, Object> map);
 }

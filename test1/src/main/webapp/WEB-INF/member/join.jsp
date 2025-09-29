@@ -12,37 +12,20 @@
             border : 1px solid black;
             border-collapse: collapse;
             padding : 5px 10px;
+            text-align: center;
         }
         th{
             background-color: beige;
         }
-        input{
-            width: 350px;
+        tr:nth-child(even){
+            background-color: azure;
         }
     </style>
 </head>
 <body>
     <div id="app">
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
-        <div>
-            <table>
-                <tr>
-                    <th>제목</th>
-                    <td><input v-model="title"></td>
-                </tr>
-                <tr>
-                    <th>작성자</th>
-                    <td><input v-model="userId"></td>
-                </tr>
-                <tr>
-                    <th>내용</th>
-                    <td><textarea v-model="contents" cols="50" rows="20"></textarea></td>
-                </tr>
-            </table>
-            <div>
-                <button @click="fnAdd">저장</button>
-            </div>
-        </div>
+         
     </div>
 </body>
 </html>
@@ -52,29 +35,20 @@
         data() {
             return {
                 // 변수 - (key : value)
-                title : "",
-                userId : "",
-                contents : "",
-                session : "${session}"
             };
         },
         methods: {
             // 함수(메소드) - (key : function())
-            fnAdd: function () {
+            fnList: function () {
                 let self = this;
-                let param = {
-                    title : self.title,
-                    userId : self.userId,
-                    contents : self.contents
-                };
+                let param = {};
                 $.ajax({
-                    url: "board-add.dox",
+                    url: "",
                     dataType: "json",
                     type: "POST",
                     data: param,
                     success: function (data) {
-                        alert("등록되었습니다");
-                        location.href="board-list.do";
+
                     }
                 });
             }
@@ -82,10 +56,6 @@
         mounted() {
             // 처음 시작할 때 실행되는 부분
             let self = this;
-            if(self.sessionId == ""){
-                alert("로그인 후 이용해 주세요");
-                location.href="/member/login.do";
-            }
         }
     });
 

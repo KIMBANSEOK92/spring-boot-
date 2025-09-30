@@ -7,17 +7,18 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.test1.model.Student;
 
-
 @Mapper
 public interface StuMapper {
- 
 	Student stuInfo(HashMap<String, Object> map);
+	List<Student> stuList(HashMap<String, Object> map);
 	
-	List<Student> stuList(HashMap<String, Object> map); // 두개이상의 값을 리턴할 때는 List<>로 묶어줘야한다.
+	// 학생 삭제
+	int deleteStudent(HashMap<String, Object> map);
 	
-	// 게시글 삭제
-	int deleteStuList(HashMap<String, Object> map);
-	
-	// 게시글 상세보기
+	// 상세 정보 조회
 	Student selectStudent(HashMap<String, Object> map);
 }
+
+
+
+

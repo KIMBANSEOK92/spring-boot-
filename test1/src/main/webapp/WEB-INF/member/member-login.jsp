@@ -34,16 +34,19 @@
         <div id="app">
             <!-- html 코드는 id가 app인 태그 안에서 작업 -->
             <div>
-                <label>아이디 : <input v-model="id"></label>
-            </div>
-            <div>
-                <label>비밀번호 : <input type="password" v-model="pwd"></label>
+                <div>
+                    <label>아이디 : <input v-model="id"></label>
+                </div>
+                <div>
+                    <label>비밀번호 : <input type="password" v-model="pwd"></label>
+                </div>
+                <div>
+                    <button @click="fnLogin">로그인</button>
+                    <a href="/member/join.do"><button>회원가입</button></a>
+                </div>
             </div>
 
-            <div>
-                <button @click="fnLogin">로그인</button>
-                <a href="/meber/join.do"><button>회원가입</button></a>
-            </div>
+
         </div>
     </body>
 
@@ -54,8 +57,8 @@
             data() {
                 return {
                     // 변수 - (key : value)
-                    id : "" ,
-                    pwd : ""
+                    id: "",
+                    pwd: ""
                 };
             },
             methods: {
@@ -63,8 +66,8 @@
                 fnLogin: function () {
                     let self = this;
                     let param = {
-                        id : self.id,
-                        pwd : self.pwd
+                        id: self.id,
+                        pwd: self.pwd
                     };
                     $.ajax({
                         url: "/member/login.dox",
@@ -73,9 +76,9 @@
                         data: param,
                         success: function (data) {
                             alert(data.msg);
-                            if(data.result == "success"){
-                                location.href="/main.do"
-                            }                            
+                            if (data.result == "success") {
+                                location.href = "/main.do";
+                            }
                         }
                     });
                 }

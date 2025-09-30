@@ -30,7 +30,7 @@ public class StuController {
 	public String view(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map)
 			throws Exception {
 		System.out.println(map);
-		request.setAttribute("stuName", map.get("stuName"));
+		request.setAttribute("stuNo", map.get("stuNo"));
 		return "/board-view";
 	}
 	

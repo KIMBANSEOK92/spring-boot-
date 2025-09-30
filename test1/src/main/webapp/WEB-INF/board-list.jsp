@@ -31,9 +31,8 @@
                 <option value="all">:: 전체 ::</option>
                 <option value="title">:: 제목 ::</option>
                 <option value="id">:: 작성자 ::</option>
-               
             </select>
-            <input v-model="keyword" placeholder="검색어">
+            <input v-model="keyword">
             <button @click="fnList">검색</button>
 
         </div>
@@ -93,12 +92,11 @@
                 list : [],
                 kind : "",
                 order : "num",
-                keyword : "",
-                searchOption : "all",
+                keyword : "", // 검색어
+                searchOption : "all", // 검색 옵션(기본 : 전체)
 
                 sessionId : "${sessionId}",
                 status : "${sessionStatus}"
-               
             };
         },
         methods: {

@@ -24,5 +24,11 @@ public interface BoardMapper {
 	
 	// 댓글 목록
 	List<Comment> selectCommentList(HashMap<String, Object> map);
+	
 }
+
+
+
+
+
 

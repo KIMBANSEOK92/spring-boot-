@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
-        table, tr, td, th{
+        #board table, tr, td, th{
             border : 1px solid black;
             border-collapse: collapse;
             padding : 5px 10px;
@@ -19,13 +19,14 @@
         input{
             width: 350px;
         }
+
     </style>
 </head>
 <body>
     <div id="app">
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
         <div>
-            <table>
+            <table id="board">
                 <tr>
                     <th>제목</th>
                     <td>{{info.title}}</td>
@@ -40,6 +41,25 @@
                 </tr>
             </table>
         </div>
+        <hr>
+
+        <table id="comment">
+            <tr v-for="item in commentList">
+                <th>{{item.nickName}}</th>
+                <td>{{item.contents}}</td>
+                <td><button>삭제</button></td>
+                <td><button>수정</button></td>
+            </tr>   
+        </table>
+        <hr>
+        <table id="input">
+            <th>댓글 입력</th>
+            <td>
+                <textarea cols="40" rows="4"></textarea>
+            </td>
+            <td><button>저장</button></td>
+        </table>
+
     </div>
 </body>
 </html>
@@ -50,7 +70,8 @@
             return {
                 // 변수 - (key : value)
                 boardNo : "${boardNo}",
-                info : {}
+                info : {},
+                commentList : []
             };
         },
         methods: {
@@ -68,6 +89,7 @@
                     success: function (data) {
                         console.log(data);
                         self.info = data.info;
+                        self.commentList = data.commentList;
                     }
                 });
             }

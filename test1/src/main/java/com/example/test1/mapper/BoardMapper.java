@@ -27,6 +27,9 @@ public interface BoardMapper {
 	
 	// 댓댓글 목록
 	int insertComment(HashMap<String, Object> map);
+	
+	// 조회수 증가
+	int updateCnt(HashMap<String, Object> map);
 }
 
 

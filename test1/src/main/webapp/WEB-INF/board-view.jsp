@@ -46,6 +46,11 @@
                         <th>내용</th>
                         <td>{{info.contents}}</td>
                     </tr>
+
+                    <tr>
+                        <th>조회수</th>
+                        <td>{{info.cnt}}</td>
+                    </tr>
                 </table>
             </div>
             <hr>
@@ -81,8 +86,8 @@
                     info: {},
                     commentList: [],
                     sessionId: "${sessionId}",
-                    contents : ""
-                    
+                    contents: ""
+
 
                 };
             },
@@ -121,10 +126,12 @@
                         data: param,
                         success: function (data) {
                             alert(data.msg);
+                            self.contents = ""; // 댓글 달고 테스트창 빈값으로 만들기
                             self.fnInfo();
                         }
                     });
                 }
+    
             }, // methods
             mounted() {
                 // 처음 시작할 때 실행되는 부분

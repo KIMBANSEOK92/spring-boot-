@@ -66,11 +66,19 @@
 		FROM TBL_COMMENT C
 		INNER JOIN TBL_USER U ON C.USERID = U.USERID
 		WHERE C.BOARDNO = #{boardNo}
+		ORDER BY C.CDATETIME ASC 
+		
 	</select>
 	
 	<insert id="insertComment" parameterType="hashmap">
 		INSERT INTO TBL_COMMENT 
 		VALUES(COMMENT_SEQ.NEXTVAL, #{boardNo}, #{contents}, #{id}, 0, NULL, SYSDATE, SYSDATE)
 	</insert>
+	
+	<update id="updateCnt" parameterType="hashmap">
+		UPDATE TBL_BOARD  
+		SET CNT = CNT + 1
+		WHERE BOARDNO = #{boardNo}
+	</update>
 	
 </mapper>

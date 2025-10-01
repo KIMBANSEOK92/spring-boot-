@@ -50,6 +50,7 @@ public class BoardService {
 	public HashMap<String, Object> getBoard(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		int cnt = boardMapper.updateCnt(map);
 		Board board = boardMapper.selectBoard(map);
 
 		List<Comment> commentList = boardMapper.selectCommentList(map);

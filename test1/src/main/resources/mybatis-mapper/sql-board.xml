@@ -68,4 +68,9 @@
 		WHERE C.BOARDNO = #{boardNo}
 	</select>
 	
+	<insert id="insertComment" parameterType="hashmap">
+		INSERT INTO TBL_COMMENT 
+		VALUES(COMMENT_SEQ.NEXTVAL, #{boardNo}, #{contents}, #{id}, 0, NULL, SYSDATE, SYSDATE)
+	</insert>
+	
 </mapper>

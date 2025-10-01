@@ -27,6 +27,12 @@
     <div id="app">
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
         <div>
+           <select v-model="pageSize" @change="fnList">
+                <option value="5">5개씩</option>
+                <option value="10">10개씩</option>
+                <option value="20">20개씩</option>
+           </select>
+
             <select v-model="searchOption">
                 <option value="all">:: 전체 ::</option>
                 <option value="title">:: 제목 ::</option>
@@ -48,6 +54,7 @@
                 <option value="num">:: 번호순 ::</option>
                 <option value="title">:: 제목순 ::</option>
                 <option value="cnt">:: 조회수 ::</option>
+                <option value="time">:: 시간순 ::</option>
             </select>
 
         </div>
@@ -95,6 +102,9 @@
                 keyword : "", // 검색어
                 searchOption : "all", // 검색 옵션(기본 : 전체)
 
+                pageSize : 5, // 한 페이지를 출력할 개수
+                page : 1,
+
                 sessionId : "${sessionId}",
                 status : "${sessionStatus}"
             };
@@ -107,7 +117,10 @@
                     kind : self.kind,
                     order : self.order,
                     keyword : self.keyword,
-                    searchOption : self.searchOption
+                    searchOption : self.searchOption,
+
+                    pageSize : self.pageSize,
+                    page : (self.page-1) * self.pageSize
                 };
                 $.ajax({
                     url: "board-list.dox",

@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <th>작성자</th>
-                    <td><input v-model="userId"></td>
+                    <td><input v-model="userId" disabled></td>
                 </tr>
                 <tr>
                     <th>내용</th>
@@ -53,9 +53,10 @@
             return {
                 // 변수 - (key : value)
                 title : "",
-                userId : "",
+                userId : "${sessionId}",
                 contents : "",
                 sessionId : "${sessionId}"
+                
             };
         },
         methods: {

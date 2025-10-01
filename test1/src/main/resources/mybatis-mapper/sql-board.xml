@@ -46,6 +46,25 @@
 		</if>
 		OFFSET #{page} ROWS FETCH NEXT #{pageSize} ROWS ONLY	
 		
+		
+	</select>
+	
+	<select id="selectBoardCnt" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) 
+		FROM TBL_BOARD B	
+		WHERE 1=1
+		<if test="kind != '' and kind != null">
+			AND KIND = #{kind}
+		</if>
+		
+		<if test="searchOption == 'all'">
+			AND (
+				TITLE LIKE '%' || #{keyword} || '%' OR
+				USERID LIKE '%' || #{keyword} || '%'
+			)
+		</if>
+		
+					
 	</select>
 	
 	<delete id="deleteBoard" parameterType="hashmap">

@@ -20,8 +20,10 @@ public class BoardService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		List<Board> list = boardMapper.selectBoardList(map);
+		int cnt = boardMapper.selectBoardCnt(map);
 
 		resultMap.put("list", list);
+		resultMap.put("cnt", cnt);
 		resultMap.put("result", "success");
 		return resultMap;
 

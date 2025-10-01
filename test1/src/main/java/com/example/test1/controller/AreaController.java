@@ -35,8 +35,10 @@ public class AreaController {
 	}
 	@RequestMapping(value = "/area/si.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String SiList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String siList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		
 		resultMap = areaService.getSiList(map);
 
 		return new Gson().toJson(resultMap);

@@ -7,9 +7,9 @@
 		SELECT *
 		FROM AREA
 		WHERE GU IS NOT NULL AND DONG IS NOT NULL
-		<IF test="si != ''">
+		<if test="si != ''">
 			AND SI =#{si}
-		</IF>	
+		</if>	
 		OFFSET #{page} ROWS FETCH NEXT #{pageSize} ROWS ONLY
 		
 	</select>
@@ -17,7 +17,10 @@
 	<select id="selectAreaCnt" parameterType="hashmap" resultType="int">
 		SELECT COUNT(*)
 		FROM AREA
-		WHERE GU IS NOT NULL AND DONG IS NOT NULL		
+		WHERE GU IS NOT NULL AND DONG IS NOT NULL	
+		<if test="si != ''">
+			AND SI =#{si}
+		</if>	
 	</select>
 	
 	<select id="selectSiList" parameterType="hashmap" resultType="com.example.test1.model.Area">

@@ -86,7 +86,7 @@
 		</foreach>
 	</delete>
 	
-	<insert id="insertBoard" parameterType="hashmap">
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyColumn="BOARDNO" keyProperty="boardNo">
 		INSERT INTO TBL_BOARD 
 		VALUES(B_SEQ.NEXTVAL, #{title}, #{contents}, #{userId}, 0, 0, 1 , SYSDATE, SYSDATE)
 	</insert>

@@ -73,8 +73,9 @@
 	</delete>
 	
 	<insert id="insertBoard" parameterType="hashmap">
-		INSERT INTO TBL_BOARD 
-		VALUES(B_SEQ.NEXTVAL, #{title}, #{contents}, #{userId}, 0, 0, 1 , SYSDATE, SYSDATE)
+		INSERT INTO TBL_BOARD
+		VALUES(B_SEQ.NEXTVAL, #{title}, #{contents}, #{userId}, 0, 0, 1 ,
+		SYSDATE, SYSDATE)
 	</insert>
 	
 	<select id="selectBoard" parameterType="hashmap" resultType="com.example.test1.model.Board">

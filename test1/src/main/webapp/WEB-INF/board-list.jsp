@@ -80,6 +80,7 @@
             <div>
                 <table>
                     <tr>
+                        <th><input type="checkbox" @click="fnAllCheck()"></th>
                         <th>번호</th>
                         <th>제목</th>
                         <th>작성자</th>
@@ -88,6 +89,10 @@
                         <th>삭제</th>
                     </tr>
                     <tr v-for="item in list">
+                        <td>
+                            <input type="checkbox" :value="item.boardNo" v-model="selectItem">
+                        </td>
+
                         <td>{{item.boardNo}}</td>
                         <td>
                             <a href="javascript:;" @click="fnView(item.boardNo)">{{item.title}}</a>
@@ -110,8 +115,10 @@
                 </div>
             </div>
             <div>
-                <a href="board-add.do"><button>글쓰기</button></a>
+                <button @click="fnAllRemove">삭제</button>
+                <a href="board-add.do"><button>글쓰기</button></a>    
             </div>
+
 
         </div>
     </body>
@@ -128,6 +135,8 @@
                     order: "num",
                     keyword: "", // 검색어
                     searchOption: "all", // 검색 옵션(기본 : 전체)
+                    selectItem: [],
+                    selectFlg: false,
 
                     pageSize: 5, // 한 페이지를 출력할 개수
                     page: 1,    // 현재 페이지
@@ -190,6 +199,38 @@
                     let self = this;
                     self.page += num;
                     self.fnList();
+                },
+                fnAllRemove: function () {
+                    let self = this;
+                    console.log(self.selectItem)
+
+                    var fList = JSON.stringify(self.selectItem);
+                    var param = { selectItem: fList };
+
+                    $.ajax({
+                        url: "/board/deleteList.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: param,
+                        success: function (data) {
+                            alert("삭제되셨습니다.");
+                            self.fnList();
+
+                        }
+                    });
+                },
+                fnAllCheck: function () {
+                    let self = this;
+                    self.selectFlg = !self.selectFlg;
+
+                    if (self.selectFlg) {
+                        self.selectItem = [];
+                        for (let i = 0; i < self.list.length; i++) {
+                            self.selectItem.push(self.list[i].boardNo);
+                        }
+                    } else {
+                        self.selectItem = [];
+                    }
                 }
             }, // methods
             mounted() {

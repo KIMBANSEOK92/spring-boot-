@@ -19,7 +19,7 @@
 		WHERE STU_NO = #{stuNo}
 	</delete>
 	
-	<delete id="deleteStudentList" parameterType="hashmap">
+	<delete id="deleteStudentList" parameterType="hashmap">	
 		DELETE FROM STUDENT
 		WHERE STU_NO IN 
 		<foreach collection="list" item="item" index="index" open="(" close=")" separator=","> 

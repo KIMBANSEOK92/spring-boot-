@@ -39,6 +39,16 @@ public class BoardService {
 
 	}
 
+	public HashMap<String, Object> removeBoardList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		int cnt = boardMapper.deleteBoardList(map);
+
+		resultMap.put("result", "success");
+		return resultMap;
+
+	}
+
 	public HashMap<String, Object> addBoard(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();

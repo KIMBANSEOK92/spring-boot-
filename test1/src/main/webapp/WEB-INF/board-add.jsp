@@ -45,7 +45,7 @@
 
                     <tr>
                         <th>파일첨부</th>
-                        <td><input type="file" id="file1" name="file1"></td>
+                        <td><input type="file" id="file1" name="file1" accept=".jsp, .png"></td>
                     </tr>
 
                     <tr>
@@ -75,6 +75,7 @@
                 };
             },
             methods: {
+                
                 // 함수(메소드) - (key : function())
                 fnAdd: function () {
                     let self = this;
@@ -96,6 +97,20 @@
                             form.append("boardNo", data.boardNo); // 임시 pk
                             self.upload(form);
                             // location.href = "board-list.do";
+                        }
+                    });
+                },
+                // 파일 업로드
+                upload: function (form) {
+                    var self = this;
+                    $.ajax({
+                        url: "/fileUpload.dox"
+                        , type: "POST"
+                        , processData: false
+                        , contentType: false
+                        , data: form
+                        , success: function (response) {
+                            console.log(data);
                         }
                     });
                 }

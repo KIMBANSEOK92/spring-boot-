@@ -117,6 +117,15 @@
 		WHERE BOARDNO = #{boardNo}
 	</update>
 	
+	<insert id="insertBoardImg" parameterType="hashmap">
+		INSERT INTO TBL_BOARD_FILE
+		VALUES(FILE_SEQ.NEXTVAL, #{boardNo}, #{path}, #{fileName}, #{orgName}, #{size}, #{ext} )
+	</insert>
+	
+	<select id="selectFileList" parameterType="hashmap" resultType="com.example.test1.model.Board">
+		SELECT * FROM TBL_BOARD_FILE
+		WHERE BOARDNO = #{boardNo}
+	</select>
 </mapper>
 
 

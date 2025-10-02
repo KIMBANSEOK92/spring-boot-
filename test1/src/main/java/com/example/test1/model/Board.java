@@ -1,5 +1,8 @@
 package com.example.test1.model;
 
+import lombok.Data;
+
+@Data
 public class Board {
 	private int boardNo;
 	private String title;
@@ -11,6 +14,11 @@ public class Board {
 	private String cdate;
 	private int commentCnt;
 
+	private String fileNo;
+	private String filePath;
+	private String fileName;
+	
+	
 	public int getBoardNo() {
 		return boardNo;
 	}

@@ -44,7 +44,10 @@
                     </tr>
                     <tr>
                         <th>내용</th>
-                        <td>{{info.contents}}</td>
+                        <td>
+                            <img v-for="item in fileList" src="item.filePath">
+                            {{info.contents}}
+                        </td>
                     </tr>
 
                     <tr>
@@ -86,7 +89,9 @@
                     info: {},
                     commentList: [],
                     sessionId: "${sessionId}",
-                    contents: ""
+                    contents: "",
+                    fileList : []
+                   
 
 
                 };
@@ -97,6 +102,7 @@
                     let self = this;
                     let param = {
                         boardNo: self.boardNo,
+                    
 
                     };
                     $.ajax({
@@ -108,6 +114,7 @@
                             console.log(data);
                             self.info = data.info;
                             self.commentList = data.commentList;
+                            self.fileList = data.fileList;
                         }
                     });
                 },
@@ -128,6 +135,7 @@
                             alert(data.msg);
                             self.contents = ""; // 댓글 달고 테스트창 빈값으로 만들기
                             self.fnInfo();
+                            
                         }
                     });
                 }

@@ -25,6 +25,25 @@
 <body>
     <div id="app">
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
+        <table>
+            <tr>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>주소</th>
+                <th>성별</th>
+                <th>A포인트</th>
+                <th>날짜</th>
+            </tr>
+
+            <tr v-for="item in list">
+                <td>{{item.userId}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.address}}</td>
+                <td>{{item.gender}}</td>
+                <td>{{item.aPoint}}</td>
+                <td>{{item.cDate}}</td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>
@@ -34,7 +53,7 @@
         data() {
             return {
                 // 변수 - (key : value)
-                userId: "${userId}",
+                list : [],
             };
         },
         methods: {
@@ -43,12 +62,13 @@
                 let self = this;
                 let param = {};
                 $.ajax({
-                    url: "",
+                    url: "/point/list.dox",
                     dataType: "json",
                     type: "POST",
                     data: param,
                     success: function (data) {
-
+                        console.log(data);
+                        self.list = data.list;
                     }
                 });
             }
@@ -56,6 +76,7 @@
         mounted() {
             // 처음 시작할 때 실행되는 부분
             let self = this;
+            self.fnList();
         }
     });
 

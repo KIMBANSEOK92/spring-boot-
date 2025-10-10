@@ -2,6 +2,8 @@ package com.example.test1.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +40,8 @@ public class MemberController {
     }
 	
 	@RequestMapping("/mgr/member/view.do") 
-    public String view(Model model) throws Exception{ 
-		
+	public String view(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		request.setAttribute("userId", map.get("userId"));
         return "/mgr/member-view";
     }
 	
@@ -102,4 +104,5 @@ public class MemberController {
 		
 		return new Gson().toJson(resultMap);
 	}
+	
 }

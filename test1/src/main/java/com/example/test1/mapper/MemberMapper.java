@@ -21,5 +21,10 @@ public interface MemberMapper {
 	// 회원목록 관리자 기능
 	List<Member> selectMgrList(HashMap<String, Object> map);
 	
+	// 로그인 성고 시 cnt 초기화
+	int updateCnt1(HashMap<String, Object> map);
+	
+	// 로그인 실패시 cnt 초기화
+	int updateCnt(HashMap<String, Object> map);
 }
 

@@ -37,6 +37,12 @@ public class MemberController {
         return "/mgr/member-list";
     }
 	
+	@RequestMapping("/mgr/member/view.do") 
+    public String view(Model model) throws Exception{ 
+		
+        return "/mgr/member-view";
+    }
+	
 	@RequestMapping("/addr.do") 
     public String addr(Model model) throws Exception{ 
 		
@@ -84,6 +90,15 @@ public class MemberController {
 	public String mgr(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = memberService.getMemberList(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/mgr/member/rollback.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String rollback(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = memberService.rollbackCnt(map);
 		
 		return new Gson().toJson(resultMap);
 	}

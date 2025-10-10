@@ -28,8 +28,13 @@ public class MemberService {
 		
 //		String message = member != null ? "로그인 성공!" : "로그인 실패!";
 //		String result = member != null ? "success" : "fail";
-		
-		if(member != null) {
+		if(member != null && member.getCnt() >= 5) {
+			message = "비밀번호를 5회 이상 잘못 입력하셨습니다.";
+			result = "fail";
+		}else if(member != null) {		
+			// cnt값을 0으로 초기화
+			memberMapeer.updateCnt1(map);
+			
 			message = "로그인 성공!";
 			result = "success";
 			
@@ -43,10 +48,18 @@ public class MemberService {
 			}
 			
 		} else {
-//			map.put("userId", map.get("id")); 
+			map.put("userId", map.get("id")); 
 			Member idCheck = memberMapeer.memberCheck(map);
+			
 			if(idCheck != null) {
+				// 로그인 실패 시 cnt 1증가
+				memberMapeer.updateCnt(map);
+				if(idCheck.getCnt() >= 5) {
+					message = "비밀번호를 5회 이상 잘못 입력하셨습니다.";	
+				} else {	
 				message = "패스워드를 확인해주세요.";
+				}
+			
 			} else {
 				message = "아이디가 존재하지 않습니다.";
 			}
@@ -101,6 +114,19 @@ public class MemberService {
 		try {
 			List<Member> mgr = memberMapeer.selectMgrList(map);
 			resultMap.put("list", mgr);
+			resultMap.put("result", "success");
+		} catch(Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage()); // 개발자가 어떤 오류인지 확인하는 용도
+		}
+
+		return resultMap;
+	}
+	
+	public HashMap<String, Object> rollbackCnt(HashMap<String, Object> map){
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			memberMapeer.updateCnt1(map);
 			resultMap.put("result", "success");
 		} catch(Exception e) {
 			resultMap.put("result", "fail");

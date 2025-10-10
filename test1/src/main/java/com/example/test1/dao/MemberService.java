@@ -1,6 +1,7 @@
 package com.example.test1.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,15 +23,35 @@ public class MemberService {
 	public HashMap<String, Object> login(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		Member member = memberMapeer.memberLogin(map);
-		String message = member != null ? "로그인 성공!" : "로그인 실패!";
-		String result = member != null ? "success" : "fail";
+		String message = ""; // 로그인 성공 실패 여부 메세지
+		String result = ""; // 로그인 성공 실패 여부 메세지
+		
+//		String message = member != null ? "로그인 성공!" : "로그인 실패!";
+//		String result = member != null ? "success" : "fail";
 		
 		if(member != null) {
+			message = "로그인 성공!";
+			result = "success";
+			
 			session.setAttribute("sessionId", member.getUserId());
 			session.setAttribute("sessionName", member.getName());
 			session.setAttribute("sessionStatus", member.getStatus());
+			if(member.getStatus().equals("A")) { // 일반회원과 관리자를 구분하기 위해 조건문 작성
+				resultMap.put("url", "/mgr/member/list.do");
+			} else {
+				resultMap.put("url", "/main.do");
+			}
+			
+		} else {
+//			map.put("userId", map.get("id")); 
+			Member idCheck = memberMapeer.memberCheck(map);
+			if(idCheck != null) {
+				message = "패스워드를 확인해주세요.";
+			} else {
+				message = "아이디가 존재하지 않습니다.";
+			}
 		}
-		
+				
 		resultMap.put("msg", message);
 		resultMap.put("result", result);
 		
@@ -72,6 +93,20 @@ public class MemberService {
 			resultMap.put("result", "success");
 		}
 		
+		return resultMap;
+	}
+	
+	public HashMap<String, Object> getMemberList(HashMap<String, Object> map){
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<Member> mgr = memberMapeer.selectMgrList(map);
+			resultMap.put("list", mgr);
+			resultMap.put("result", "success");
+		} catch(Exception e) {
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage()); // 개발자가 어떤 오류인지 확인하는 용도
+		}
+
 		return resultMap;
 	}
 }

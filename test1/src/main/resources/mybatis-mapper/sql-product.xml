@@ -50,6 +50,7 @@
 		FROM TBL_FOOD
 		WHERE FOOD_NO = #{foodNo}
 	</select>
+
 </mapper>
 
 

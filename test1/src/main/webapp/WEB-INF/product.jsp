@@ -8,6 +8,7 @@
         <script src="https://code.jquery.com/jquery-3.7.1.js"
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="/js/page-change.js"></script>
         <title>쇼핑몰 헤더</title>
         <link rel="stylesheet" href="/css/product-style.css">
     </head>
@@ -35,8 +36,8 @@
                 </nav>
 
                 <div class="search-bar">
-                    <input @keyup.enter="fnList" v-model="keyword" type="text" placeholder="상품을 검색하세요...">
-                    <button @click="fnList">검색</button>
+                    <input @keyup.enter="fnList('','')" v-model="keyword" type="text" placeholder="상품을 검색하세요...">
+                    <button @click="fnList('', '')">검색</button>
                 </div>
                 <div class="login-btn">
                     <button>로그인</button>
@@ -47,10 +48,12 @@
                 <section class="product-list">
                     <!-- 제품 항목 -->
                     <div class="product-item" v-for="item in list">
-                        <img :src="item.filePath">
-                        <h3>{{item.foodName}}</h3>
-                        <p>{{item.foodInfo}}</p>
-                        <p class="price">{{item.price.toLocaleString()}}</p>
+                        <a href="javascript:;" @click="fnView(item.foodNo)" >
+                            <img :src="item.filePath" alt="제품 1">
+                            <h3>{{item.foodName}}</h3>
+                            <p>{{item.foodInfo}}</p>
+                            <p class="price">{{item.price.toLocaleString()}}</p>
+                        </a>
                     </div>
 
 
@@ -90,14 +93,16 @@
                             self.list = data.list;
                             self.menuList = data.menuList;
 
-
                         }
                     });
                 },
+                fnView: function (foodNo) {
+                    pageChange("/product/view.do", { foodNo: foodNo });
+                }
 
             }, mounted() {
                 var self = this;
-                self.fnList();
+                self.fnList('', '');
             }
         });
         app.mount('#app');

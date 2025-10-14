@@ -11,7 +11,18 @@ import com.example.test1.model.Product;
 @Mapper
 public interface ProductMapper {
 	
+	
 	List<Product> selectProductList(HashMap<String, Object> map);
 	
+	// 제품 목록
 	List<Menu> selectMenuList(HashMap<String, Object> map);
+	
+	// 제품 등록
+	int insertMenu(HashMap<String, Object> map);
+	
+	// 제품 이미지 등록
+	int insertMenuImg(HashMap<String, Object> map);
+	
+	// 제품 상제정보
+	Product selectProduct(HashMap<String, Object> map);
 }

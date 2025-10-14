@@ -9,5 +9,6 @@ public class Menu {
 	private int menuPart;
 	private int depth;
 	private int cnt;
-	
+
+		
 }

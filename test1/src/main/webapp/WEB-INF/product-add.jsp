@@ -17,14 +17,19 @@
                 border: 1px solid black;
                 border-collapse: collapse;
                 padding: 5px 10px;
+                text-align: center;
             }
 
             th {
                 background-color: beige;
             }
 
-            input {
-                width: 350px;
+            .txt {
+                width: 250px;
+            }
+
+            .txt1 {
+                background-color: rgb(222, 238, 182);
             }
         </style>
     </head>
@@ -35,27 +40,63 @@
             <div>
                 <table>
                     <tr>
-                        <th>이름</th>
-                        <td><input v-model="title"></td>
-                    </tr>
-                    <tr>
-                        <th>설명</th>
-                        <td>{{userId}}</td>
+                        <th>
+                            카테고리
+                        </th>
+                        <td style="text-align: left;" class="txt1">
+                            <select v-model="menuPart">
+                                <option v-for="item in menuList" :value="item.menuNo">
+                                    {{item.menuName}}
+                                </option>
+                            </select>
+                        </td>
                     </tr>
 
                     <tr>
-                        <th>가격</th>
-                        <td><input type="file" id="file1" name="file1" accept=".jsp, .png"></td>
+                        <th>
+                            제품번호
+                        </th>
+                        <td class="txt1">
+                            <input v-model="menuNo" class="txt">
+                        </td>
                     </tr>
 
                     <tr>
-                        <th>이미지</th>
-                        <td><textarea v-model="contents" cols="50" rows="20"></textarea></td>
+                        <th>
+                            음식명
+                        </th>
+                        <td class="txt1">
+                            <input v-model="foodName" type="text" class="txt">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            음식 설명
+                        </th>
+                        <td class="txt1">
+                            <textarea v-model="foodInfo" cols="34" rows="10"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            가격
+                        </th>
+                        <td class="txt1">
+                            <input v-model="price" class="txt">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            이미지
+                        </th>
+                        <td class="txt1">
+                            <input type="file" id="file1" name="file1" accept=".jpg, .png">
+                        </td>
                     </tr>
                 </table>
-                <div>
-                    <button @click="fnAdd">저장</button>
-                </div>
+            </div>
+            <div>
+                <button style="margin-top: 7px;" @click="fnAdd">제품 등록</button>
             </div>
         </div>
     </body>
@@ -67,36 +108,59 @@
             data() {
                 return {
                     // 변수 - (key : value)
-                    title: "",
-                    userId: "${sessionId}",
-                    contents: "",
-                    sessionId: "${sessionId}"
-
+                    foodName: "",
+                    foodInfo: "",
+                    price: "",
+                    menuPart: "10",
+                    menuNo: "",
+                    menuList: []
                 };
             },
             methods: {
-                
                 // 함수(메소드) - (key : function())
-                fnAdd: function () {
+                fnMenuList: function () {
                     let self = this;
                     let param = {
-                        title: self.title,
-                        userId: self.userId,
-                        contents: self.contents
+                        depth: 1
                     };
                     $.ajax({
-                        url: "board-add.dox",
+                        url: "/product/menu.dox",
                         dataType: "json",
                         type: "POST",
                         data: param,
                         success: function (data) {
-                            alert("등록되었습니다.");
-                            console.log(data.boardNo);
-                            var form = new FormData();
-                            form.append("file1", $("#file1")[0].files[0]);
-                            form.append("boardNo", data.boardNo); // 임시 pk
-                            self.upload(form);
-                            // location.href = "board-list.do";
+                            console.log(data);
+                            self.menuList = data.menuList;
+                        }
+                    });
+                },
+                fnAdd: function () {
+                    let self = this;
+                    let param = {
+                        foodName: self.foodName,
+                        foodInfo: self.foodInfo,
+                        price: self.price,
+                        menuPart: self.menuPart,
+                        menuNo: self.menuNo,
+                    };
+                    $.ajax({
+                        url: "/product/add.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: param,
+                        success: function (data) {
+                            if (data.result == "success") {
+                                console.log(data);
+                                var form = new FormData();
+                                form.append("file1", $("#file1")[0].files[0]);
+                                form.append("foodNo", data.foodNo); // 임시 pk
+                                self.upload(form);
+
+                                alert("등록되었습니다");
+                                location.href="/product.do"
+                            } else {
+                                alert("오류가 발생했습니다")
+                            }
                         }
                     });
                 },
@@ -104,7 +168,7 @@
                 upload: function (form) {
                     var self = this;
                     $.ajax({
-                        url: "/fileUpload.dox"
+                        url: "/product/fileUpload.dox"
                         , type: "POST"
                         , processData: false
                         , contentType: false
@@ -114,14 +178,12 @@
                         }
                     });
                 }
+
             }, // methods
             mounted() {
                 // 처음 시작할 때 실행되는 부분
                 let self = this;
-                if (self.sessionId == "") {
-                    alert("로그인 후 이용해 주세요");
-                    location.href = "/member/login.do";
-                }
+                self.fnMenuList();
             }
         });
 

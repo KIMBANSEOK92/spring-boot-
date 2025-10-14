@@ -13,10 +13,9 @@ public class Product {
 	private String filePath;
 	private int menuPart;
 	private int menuNo;
-	
-	
+	private String foodFileNo;
 	private String fileName;
-	private String thumbnailYn;
+	private String fileOrgName;
+	private String thumbanlYn;
 
-	
 }

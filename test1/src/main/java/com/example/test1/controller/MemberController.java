@@ -33,6 +33,12 @@ public class MemberController {
         return "/member/member-join";
     }
 	
+	@RequestMapping("/member/pwd.do") 
+    public String pwd(Model model) throws Exception{ 
+		
+        return "member/pwd";
+    }
+	
 	@RequestMapping("/mgr/member/list.do") 
     public String mgr(Model model) throws Exception{ 
 		
@@ -101,6 +107,25 @@ public class MemberController {
 	public String rollback(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = memberService.rollbackCnt(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	@RequestMapping(value = "/member/find.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String member (Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = memberService.getfindMember(map);
+		
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/member/pwd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String pwd (Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = memberService.getupdatePwd(map);
 		
 		return new Gson().toJson(resultMap);
 	}

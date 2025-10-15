@@ -82,6 +82,8 @@
         <div>
             <button @click="fnJoin">회원가입</button>
         </div>
+
+        
         
     </div>
 </body>

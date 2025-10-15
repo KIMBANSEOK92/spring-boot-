@@ -50,6 +50,25 @@
 		WHERE USERID = #{id}
 	</update>
 	
+	<select id="findMember" parameterType="hashmap" resultType="com.example.test1.model.Member">
+	    SELECT * FROM TBL_USER
+	    WHERE USERID = #{userId} AND NAME = #{name} AND REPLACE(PHONE, '-', '') = #{phone}
+	</select>
+	
+	<update id="updatePassword" parameterType="hashmap">
+    	UPDATE TBL_USER
+	    SET 	    
+	    password = #{hashPwd}
+	    WHERE user_id = #{userId}
+	</update>
+	
+	<update id="updatePwd" parameterType="hashmap">
+	    UPDATE TBL_USER
+	    SET 
+	    	password = #{hashPwd}
+	    WHERE USERID = #{userId}
+	</update>
+	
 </mapper>
 
 

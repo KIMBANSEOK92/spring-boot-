@@ -11,4 +11,5 @@ public class MapController {
 	public String product(Model model) throws Exception {
 		return "/map/map1";
 	}
+	
 }

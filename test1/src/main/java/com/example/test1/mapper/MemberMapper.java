@@ -26,5 +26,6 @@ public interface MemberMapper {
 	
 	// 로그인 실패시 cnt 초기화
 	int updateCnt(HashMap<String, Object> map);
+	
 }
 

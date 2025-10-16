@@ -9,6 +9,7 @@
         <script src="https://code.jquery.com/jquery-3.7.1.js"
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
         <style>
             table,
             tr,
@@ -71,6 +72,7 @@
     </html>
 
     <script>
+        IMP.init("imp43011855"); // 예: imp00000000
         const app = Vue.createApp({
             data() {
                 return {
@@ -81,6 +83,7 @@
                     phone: "",
                     pwd1: "",
                     pwd2: "",
+                    
 
                 };
             },
@@ -103,9 +106,10 @@
                         success: function (data) {
                             if (data.result == "success") {
                                 alert("인증되셨습니다.");
-                                self.authFlg = true;
+                                self.fnCertification();
+                                // self.authFlg = true;
                             } else {
-                                alert("회원 정보를 확인해주세요.");
+                                alert("회원정보를 찾을 수 없습니다.");
 
                             }
                         }
@@ -117,7 +121,7 @@
                     let self = this;
                     let param = {
                         userId: self.userId,
-                        id : self.userId,
+                        id: self.userId,
                         pwd: self.pwd1
                     };
                     $.ajax({
@@ -127,14 +131,40 @@
                         data: param,
                         success: function (data) {
                             if (data.result == "success") {
-                                alert("변경되셨습니다.");      
+                                alert("변경되셨습니다.");
                                 // location.href="/member/login.do";              
                             } else {
-                                alert("오류가 발생하셨습니다");
+                                alert(data.msg);
 
                             }
                         }
                     });
+                },
+                fnCertification: function () {
+                    let self = this;
+                    // IMP.certification(param, callback) 호출
+                    IMP.certification(
+                        {
+                            // param
+                            channelKey: "channel-key-ae9e372e-63a7-4281-b022-45fa944f97fc",
+                            merchant_uid: "merchant_" + new Date().getTime // 주문 번호
+                           
+                        },
+                        function (rsp) {
+                            // callback
+                            if (rsp.success) {
+                                // 인증 성공 시 로직
+                                alert("인증 성공!");
+                                console.log(rsp);
+                                self.authFlg = true;
+                                
+                            } else {
+                                // 인증 실패 시 로직
+                                alert("인증 실패!");
+                                console.log(rsp);
+                            }
+                        },
+                    );
                 }
             }, // methods
             mounted() {

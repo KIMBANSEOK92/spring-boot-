@@ -9,6 +9,8 @@
         <script src="https://code.jquery.com/jquery-3.7.1.js"
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
         <style>
             table,
             tr,
@@ -33,46 +35,39 @@
     <body>
         <div id="app">
             <!-- html 코드는 id가 app인 태그 안에서 작업 -->
-            <table>
 
-                <table id="board">
-                    <tr>
-                        <th>사진</th>
-                        <td>
-                            <img v-for="item in fileList" :src="item.filePath"  >
-                            {{info.filePath}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>제품이름</th>
-                        <td>{{info.foodName}}</td>
-                    </tr>
+            <div>
+                제품명 : {{info.foodName}}
+            </div>
+            <div>
+                가격 : {{info.price}}
+            </div>
+            <div>
+                정보 : {{info.foodInfo}}
+            </div>
+            <div>
+                개수 : <input v-model="num">
+            </div>
 
-                    <tr>
-                        <th>음식내용</th>
-                        <td>{{info.foodInfo}}</td>
-                    </tr>
 
-                    <tr>
-                        <th>가격</th>
-                        <td>{{info.price}}</td>
-                    </tr>
-
-                </table>
-            </table>
+            <div>
+                <button @click="fnPayment">주문하기</button>
+            </div>
         </div>
     </body>
 
     </html>
 
     <script>
+        IMP.init("imp43011855"); // 예: imp00000000
         const app = Vue.createApp({
             data() {
                 return {
                     // 변수 - (key : value)
                     foodNo: "${foodNo}",
+                    sessionId: "${sessionId}",
                     info: {},
-                    fileList : []
+                    num: 1
                 };
             },
             methods: {
@@ -90,10 +85,57 @@
                         success: function (data) {
                             console.log(data);
                             self.info = data.info;
-                            self.fileList = data.fileList;
                         }
                     });
+                },
+                fnPayment: function () {
+                    let self = this;
+                    IMP.request_pay({
+                        pg: "html5_inicis",
+                        pay_method: "card",
+                        merchant_uid: "merchant_" + new Date().getTime(),
+                        name: self.info.foodName,
+                        amount: 1, // self.info.price * self.num,
+                        buyer_tel: "010-0000-0000",
+                    }, function (rsp) { // callback
+                        if (rsp.success) {
+                            // 결제 성공 시
+                            alert("성공");
+                            console.log(rsp);
+                            self.fnPaymentList(rsp.imp_uid, rsp.paid_amount);
+                        } else {
+                            // 결제 실패 시
+                            alert("실패");
+                        }
+                    });
+
+                },
+                fnPaymentList: function (uid, amount) {
+                    let self = this;
+                    let param = {
+                        foodNo: self.foodNo,
+                        uid: uid,
+                        amount: amount,
+                        userId: self.sessionId
+                    };
+                    $.ajax({
+                        url: "/product/payment.dox",
+                        dataType: "json",
+                        type: "POST",
+                        data: param,
+                        success: function (data) {
+                            console.log(data);
+                            if (data.result == "success") {
+                                alert("결제가 완료됐습니다.");
+                            } else {
+                                alert("결제가 실패됐습니다.");
+                            }
+
+                        }
+                    });
+
                 }
+
             }, // methods
             mounted() {
                 // 처음 시작할 때 실행되는 부분

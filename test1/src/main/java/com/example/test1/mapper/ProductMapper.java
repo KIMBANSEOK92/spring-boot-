@@ -25,4 +25,7 @@ public interface ProductMapper {
 	
 	// 제품 상제정보
 	Product selectProduct(HashMap<String, Object> map);
+	
+	// 제품 구매정보 등록
+	int insertPayment(HashMap<String, Object> map);
 }

@@ -45,8 +45,9 @@
                     <tr>
                         <th>내용</th>
                         <td>
-                            <img v-for="item in fileList" src="item.filePath">
-                            {{info.contents}}
+                            <img v-for="item in fileList" :src="item.filePath">
+                            <br>
+                            <div v-html="info.contents2"></div>
                         </td>
                     </tr>
 

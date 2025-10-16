@@ -17,5 +17,6 @@ public class Product {
 	private String fileName;
 	private String fileOrgName;
 	private String thumbanlYn;
-
+	
+	
 }

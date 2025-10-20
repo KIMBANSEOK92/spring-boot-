@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +22,17 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
+	@Value("${client_id}")
+	private String client_id;
+
+    @Value("${redirect_uri}")
+    private String redirect_uri;
+	
 	@RequestMapping("/member/login.do") 
     public String login(Model model) throws Exception{ 
-		
+		String location = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+client_id+"&redirect_uri="+redirect_uri;
+        model.addAttribute("location", location);
+        
         return "/member/member-login";
     }
 	
@@ -56,7 +65,7 @@ public class MemberController {
 		
         return "/jusoPopup";
     }
-		
+			
 	@RequestMapping(value = "/member/login.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String login(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -129,5 +138,5 @@ public class MemberController {
 		
 		return new Gson().toJson(resultMap);
 	}
-	
+		
 }

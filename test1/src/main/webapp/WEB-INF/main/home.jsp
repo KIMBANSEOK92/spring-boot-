@@ -27,8 +27,8 @@
         <!-- html 코드는 id가 app인 태그 안에서 작업 -->
          {{sessionId}}님 환영합니다! 메인페이지 입니다!
          <div>
-            <a href="/board-li.do"><button>게시판으로 이동</button></a>
-            <a href="bbs/add.do"><button>복습게시판 이동</button></a>
+            <a href="/board-list.do"><button>게시판으로 이동</button></a>
+            <a href="bbs/add.do"><button>복습 글쓰기 이동</button></a>
             <a href="/product.do"><button>메인화면</button></a>
             <button @click="fnLogout">로그아웃</button>
          </div>

@@ -78,7 +78,7 @@
 		WHERE BOARDNO = #{boardNo}
 	</delete>
 	
-		<delete id="deleteBoardList" parameterType="hashmap">	
+	<delete id="deleteBoardList" parameterType="hashmap">	
 		DELETE FROM TBL_BOARD
 		WHERE BOARDNO IN 
 		<foreach collection="list" item="item" index="index" open="(" close=")" separator=","> 

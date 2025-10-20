@@ -1,3 +1,4 @@
+
 package com.example.test1.dao;
 
 import java.util.HashMap;
@@ -11,34 +12,92 @@ import com.example.test1.model.Bbs;
 
 @Service
 public class BbsService {
-	
 	@Autowired
 	BbsMapper bbsMapper;
 	
-	public HashMap<String, Object> getBbsList(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
+	public HashMap<String, Object> getBbsList(HashMap<String, Object> map){
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		List<Bbs> list = bbsMapper.selectBbsList(map);
-//		int hit = bbsMapper.updateHit(map);
+		try {
+			List<Bbs> list = bbsMapper.selectBbsList(map);
+			int cnt = bbsMapper.selectBbsListCnt(map);
+			
+			resultMap.put("cnt", cnt);
+			resultMap.put("list", list);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
 		
-		resultMap.put("list", list);
-//		resultMap.put("hit", hit);
-		resultMap.put("result", "success");
-		return resultMap;
-
-	}	
-
-	public HashMap<String, Object> addBbs(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		
-		int hit = bbsMapper.insertBbs(map);
-		
-		resultMap.put("bbsNum", map.get("bbsNum"));
-		resultMap.put("result", "success");
-		return resultMap;
-
+		return resultMap;		
 	}
 	
-
+	public HashMap<String, Object> addBbs(HashMap<String, Object> map){
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			bbsMapper.insertBbs(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return resultMap;		
+	}
+	
+	public HashMap<String, Object> removeBbs(HashMap<String, Object> map){
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			System.out.println(map);
+			bbsMapper.deleteBbs(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return resultMap;		
+	}
+	
+	public HashMap<String, Object> getBbs(HashMap<String, Object> map){
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			Bbs info = bbsMapper.selectBbs(map);
+			resultMap.put("info", info);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return resultMap;		
+	}
+	
+	public HashMap<String, Object> editBbs(HashMap<String, Object> map){
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			bbsMapper.updateBbs(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return resultMap;		
+	}
 }
+
+
+
+
+

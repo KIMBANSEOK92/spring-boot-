@@ -33,12 +33,6 @@
                         <input v-model="title" placeholder="제목">
                     </td>
                 </tr>
-
-                <tr>
-                    <th>작성자</th>
-                    <td>{{userId}}</td>
-                </tr>
-
                 <tr>
                     <th>내용</th>
                     <td>
@@ -48,8 +42,7 @@
             </table>
         </div>
         <div>
-            <button @click="fnAdd">저장</button>
-            <button><a href="/bbs/list.do" style="text-decoration: none; color: inherit;">되돌아가기</a></button>
+            <button @click="fnEdit">수정</button>
         </div>
     </div>
 </body>
@@ -63,26 +56,47 @@
                 sessionId : "${sessionId}",
                 title : "",
                 contents : "",
-                userId: "${sessionId}",
+                bbsNum : "${bbsNum}"
             };
         },
         methods: {
             // 함수(메소드) - (key : function())
-            fnAdd : function () {
+            fnInfo : function () {
                 let self = this;
                 let param = {
-                    userId : self.sessionId,
-                    title : self.title,
-                    contents : self.contents
+                    bbsNum : self.bbsNum
                 };
                 $.ajax({
-                    url: "/bbs/add.dox",
+                    url: "/bbs/view.dox",
                     dataType: "json",
                     type: "POST",
                     data: param,
                     success: function (data) {
                         if(data.result == "success"){
-                            alert("저장되었습니다!");
+                            self.title = data.info.title;
+                            self.contents = data.info.contents;
+                        } else {
+                            alert("오류가 발생했습니다!");
+                        }
+                    }
+                });
+            },
+
+            fnEdit : function () {
+                let self = this;
+                let param = {
+                    bbsNum : self.bbsNum,
+                    title : self.title,
+                    contents : self.contents
+                };
+                $.ajax({
+                    url: "/bbs/edit.dox",
+                    dataType: "json",
+                    type: "POST",
+                    data: param,
+                    success: function (data) {
+                        if(data.result == "success"){
+                            alert("수정되었습니다!");
                             location.href = "/bbs/list.do";
                         } else {
                             alert("오류가 발생했습니다!");
@@ -94,6 +108,7 @@
         mounted() {
             // 처음 시작할 때 실행되는 부분
             let self = this;
+            self.fnInfo()
         }
     });
 

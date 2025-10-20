@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 <mapper namespace="com.example.test1.mapper.BbsMapper">
 	<select id="selectBbsList" parameterType="hashmap" resultType="com.example.test1.model.Bbs">
 		SELECT *
 		FROM TBL_BBS
+		WHERE (TITLE LIKE '%' || #{keyword} || '%' 
+				OR USERID LIKE '%' || #{keyword} || '%')
 		ORDER BY BBS_NUM DESC
+		OFFSET #{page} ROWS FETCH NEXT #{pageSize} ROWS ONLY
 	</select>
 	
-	<update id="updateHit" parameterType="hashmap">
-		UPDATE TBL_BBS
-		SET
-			HIT = HIT + 1
-		WHERE BBS_NUM = #{bbsNum}
-	</update>
+	<select id="selectBbsListCnt" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM TBL_BBS
+		WHERE (TITLE LIKE '%' || #{keyword} || '%' 
+				OR USERID LIKE '%' || #{keyword} || '%')
+	</select>
+	
 	
 	<insert id="insertBbs" parameterType="hashmap">
 		INSERT INTO TBL_BBS
-		VALUES(BBS_SEQ.NEXTVAL, #{bbsNum}, #{title}, #{contents} , 0 , #{userId}, SYSDATE, SYSDATE)
+		VALUES(BBS_SEQ.NEXTVAL, #{title}, #{contents}, 0, #{userId}, SYSDATE, SYSDATE) 
+		
 	</insert>
-
 	
-
-
-
-
+	<delete id="deleteBbs" parameterType="hashmap">
+		DELETE FROM TBL_BBS
+		WHERE BBS_NUM = #{selectItem}
+	</delete>
+	
+	<select id="selectBbs" parameterType="hashmap" resultType="com.example.test1.model.Bbs">
+		SELECT *
+		FROM TBL_BBS
+		WHERE BBS_NUM = #{bbsNum}
+	</select>
+	<update id="updateBbs" parameterType="hashmap">
+		UPDATE TBL_BBS
+		SET
+			TITLE = #{title},
+			CONTENTS = #{contents}
+		WHERE BBS_NUM = #{bbsNum}
+	</update>
 </mapper>
